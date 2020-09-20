@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page Title</title>
+    <title>Tic tac toe</title>
     <meta charset="UTF-8">
 
     <link href="styles/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-
+    <h1>Tic Tac Toe!</h1>
+    <div id="settings">
+        <button id="startRestart">Start/Restart</button>
+        <br>
+        <br>
+        <button id="opponentToggle">Against computer</button>
+        <br>
+        <br>
+        <form id="player1" action="">
+            <input id="namePlayer1" type="text" placeholder="Player 1 name:">
+            <button id="namePlaySubmit1" type="submit">submit</button>
+        </form>
+        <br>
+        <form id="player2" action="">
+            <input id="namePlayer2" type="text" placeholder="Player 2 name:">
+            <button id="namePlaySubmit2" type="submit">submit</button>
+        </form>
+        <br id="play2Break">
+    </div>
+    <div id="displayRoot">
+    <button id="1">1</button>
+    <button id="2">2</button>
+    <button id="3">3</button>
+    <button id="4">4</button>
+    <button id="5">5</button>
+    <button id="6">6</button>
+    <button id="7">7</button>
+    <button id="8">8</button>
+    <button id="9">9</button>
+    </div>
     <script src="javascript/myscript.js"></script>
 </body>
+</html>

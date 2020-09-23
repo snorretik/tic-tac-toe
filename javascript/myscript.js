@@ -72,14 +72,14 @@ let setUpGame = (function () {
         }
     })
 
-    const numberButtonsEvents = () => {
+    const numberButtonsEvents = (playerForSym) => {
         const numberButt = Array.from(document.querySelectorAll(".clickAble"));
 
         for (let i = 0; i < numberButt.length; i++) {
-            numberButt[i].addEventListener('click', playGame.playButton(numberButt[i]));
+            numberButt[i].addEventListener('click', playGame.numberButtons(numberButt[i], i, playerForSym.symbol));
         }
     }
-    
+
     // -----------------------------------------------------
     // Additional functions:
 
@@ -156,29 +156,7 @@ let setUpGame = (function () {
         entered2 = true;
     }
 
-    // const checkIfWon = (playerCurrName) => {
-    //     const outputString = document.querySelector("#outputString");
-
-    //     if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[1] == playerCurrName.symbol) && (gameBoard[2] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;    
-    //     } else if ((gameBoard[3] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[6] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[3] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[1] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
-    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
-    //     }
-    // }
-
-    return { gameboard, /*comp, player1Name, player2Name, entered1, entered2 */ turnPlay1 };
+    return { gameboard, turnPlay1, numberButtonsEvents };
 
 })();
 
@@ -186,35 +164,38 @@ let playGame = (function () {
     'use strict';
 
     const playSing = (playerOne) => {
-
+        if (setUpGame.turnPlay1 == true) {
+            
+        }
     }
 
     const playMult = (playerOne, playerTwo) => {
-
+        // take turns
     }
 
-    const numberButtons = (numberButton) => {
-        
+    const numberButtons = (numberButton, iRef, symbol) => {
+        numberButton.textContent = symbol;
+        gameboard[iRef] = symbol;
     }
-    const checkIfWon = (playerCurrName) => {
+    const checkIfWon = (playerCurr) => {
         const outputString = document.querySelector("#outputString");
 
-        if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[1] == playerCurrName.symbol) && (gameBoard[2] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;    
-        } else if ((gameBoard[3] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[6] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[3] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[1] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
-        } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
-            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        if ((gameBoard[0] == playerCurr.symbol) && (gameBoard[1] == playerCurr.symbol) && (gameBoard[2] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;    
+        } else if ((gameBoard[3] == playerCurr.symbol) && (gameBoard[4] == playerCurr.symbol) && (gameBoard[5] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[6] == playerCurr.symbol) && (gameBoard[7] == playerCurr.symbol) && (gameBoard[8] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[0] == playerCurr.symbol) && (gameBoard[3] == playerCurr.symbol) && (gameBoard[6] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[1] == playerCurr.symbol) && (gameBoard[4] == playerCurr.symbol) && (gameBoard[7] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[2] == playerCurr.symbol) && (gameBoard[5] == playerCurr.symbol) && (gameBoard[8] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[0] == playerCurr.symbol) && (gameBoard[4] == playerCurr.symbol) && (gameBoard[8] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
+        } else if ((gameBoard[2] == playerCurr.symbol) && (gameBoard[4] == playerCurr.symbol) && (gameBoard[6] == playerCurr.symbol)) {
+            outputString.textContent = `${playerCurr.name}, you have won!`;  
         }
     }
 })();

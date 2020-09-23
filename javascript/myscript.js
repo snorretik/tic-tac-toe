@@ -7,16 +7,21 @@ let setUpGame = (function () {
     let player2Name = "";
     let entered1 = false;
     let entered2 = false;
+    let turnPlay1 = true;
 
     setEventPlayer2();
     
     const startRestartButt = document.querySelector("#startRestart");
     startRestartButt.addEventListener('click', (e) => {
+        gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+        if (comp == true) {
+            comp = false;
+            remOrAdd(comp);
+        }
+
         const inputText1 = document.querySelector("#input1");
         const inputText2 = document.querySelector("#input2");
-
-        gameBoard = ["", "", "", "", "", "", "", "", ""];
-        comp = false;
 
         player1Name = "";
         player2Name = "";
@@ -25,6 +30,7 @@ let setUpGame = (function () {
 
         entered1 = false;
         entered2 = false;
+        turnPlay1 = true;
         // misschien nog meer nodig...
     })
 
@@ -45,6 +51,37 @@ let setUpGame = (function () {
 
         entered1 = true;
     })
+
+    const playButton = document.querySelector("#play");
+    playButton.addEventListener('click', (e) => {
+        if (comp == true) {
+            if (entered1 == true) {
+                const player1 = player(player1Name, "X"); 
+                playGame.playSing(player1);
+            } else if (entered1 == false) {
+                const player1 = player("Anonymous", "X");
+                playGame.playSing(player1);
+            }
+        } else if (comp == false) {
+            if ((entered1 == true) && (entered2 == true)) {
+                playGame.playMult()
+            } else {
+                const output = document.querySelector("#outputString");
+                output.textContent = "Please enter your names and play again...";
+            }
+        }
+    })
+
+    const numberButtonsEvents = () => {
+        const numberButt = Array.from(document.querySelectorAll(".clickAble"));
+
+        for (let i = 0; i < numberButt.length; i++) {
+            numberButt[i].addEventListener('click', playGame.playButton(numberButt[i]));
+        }
+    }
+    
+    // -----------------------------------------------------
+    // Additional functions:
 
     function remOrAdd(computerOrNot) {
         const mainDiv = document.querySelector("#settings");
@@ -100,17 +137,17 @@ let setUpGame = (function () {
         }
     }
 
-    function setEventPlayer2 () {
+    function setEventPlayer2() {
         const getPlayerName2 = document.querySelector("#button2");
         getPlayerName2.addEventListener('click', eventFunction);
     }
 
-    function removeEventPlayer2 () {
+    function removeEventPlayer2() {
         const getPlayerName2 = document.querySelector("#button2");
         getPlayerName2.removeEventListener('click', eventFunction);
     }
 
-    function eventFunction () {
+    function eventFunction() {
         const inputText2 = document.querySelector("#input2");
         player2Name = inputText2.value;
         inputText2.setAttribute("placeholder", player2Name);
@@ -119,23 +156,70 @@ let setUpGame = (function () {
         entered2 = true;
     }
 
+    // const checkIfWon = (playerCurrName) => {
+    //     const outputString = document.querySelector("#outputString");
+
+    //     if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[1] == playerCurrName.symbol) && (gameBoard[2] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;    
+    //     } else if ((gameBoard[3] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[6] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[3] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[1] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
+    //         outputString.textContent = `${playerCurrName.name}, you have won!`;  
+    //     }
+    // }
+
+    return { gameboard, /*comp, player1Name, player2Name, entered1, entered2 */ turnPlay1 };
+
 })();
 
-(function () {
+let playGame = (function () {
     'use strict';
 
+    const playSing = (playerOne) => {
+
+    }
+
+    const playMult = (playerOne, playerTwo) => {
+
+    }
+
+    const numberButtons = (numberButton) => {
+        
+    }
+    const checkIfWon = (playerCurrName) => {
+        const outputString = document.querySelector("#outputString");
+
+        if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[1] == playerCurrName.symbol) && (gameBoard[2] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;    
+        } else if ((gameBoard[3] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[6] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[3] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[1] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[7] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[5] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[0] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[8] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        } else if ((gameBoard[2] == playerCurrName.symbol) && (gameBoard[4] == playerCurrName.symbol) && (gameBoard[6] == playerCurrName.symbol)) {
+            outputString.textContent = `${playerCurrName.name}, you have won!`;  
+        }
+    }
 })();
 
-function player(name) {
+function player(name, symbol) {
     // factory function
-
-    return { name };
-}
-
-
-// -----------------------------------
-// additional functions:
-
-function displayBoard() {
-
+    return { name, symbol };
 }

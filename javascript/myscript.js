@@ -8,6 +8,7 @@ let setUpGame = (function () {
     let entered1 = false;
     let entered2 = false;
     let turnPlay1 = true;
+    let setButtons = false;
 
     setEventPlayer2();
     
@@ -31,6 +32,7 @@ let setUpGame = (function () {
         entered1 = false;
         entered2 = false;
         turnPlay1 = true;
+        setButtons = false;
         // misschien nog meer nodig...
     })
 
@@ -72,12 +74,29 @@ let setUpGame = (function () {
         }
     })
 
-    const numberButtonsEvents = (playerForSym) => {
+    const numberButtonsEvents = (playerForSym, isItSet) => {
+        if (isItSet == false) {
+            const numberButt = Array.from(document.querySelectorAll(".clickAble"));
+            for (let i = 0; i < gameBoard.length; i++) {
+                numberButt[i].addEventListener('click', playGame.numberButtons(numberButt[i], i, playerForSym.symbol));
+            }
+        } else if (isItSet == true) {
+            const numberButt = Array.from(document.querySelectorAll(".clickAble"));
+
+            for (let iNum1 = 0; iNum1 < gameBoard.length; iNum1++) {
+                numberButt[iNum1].removeEventListener('click', playGame.numberButtons(numberButt[iNum1], iNum1, playerForSym.symbol));
+            }
+
+            for (let iNum2 = 0; iNum2 < gameBoard.length; iNum2++) {
+                numberButt[iNum2].addEventListener('click', playGame.numberButtons(numberButt[iNum2], iNum2, playerForSym.symbol));
+            }
+
+        } else {
+            console.log(isItSet);
+        }
         const numberButt = Array.from(document.querySelectorAll(".clickAble"));
 
-        for (let i = 0; i < numberButt.length; i++) {
-            numberButt[i].addEventListener('click', playGame.numberButtons(numberButt[i], i, playerForSym.symbol));
-        }
+        numberButt[i].addEventListener('click', playGame.numberButtons(numberButt[i], i, playerForSym.symbol));
     }
 
     // -----------------------------------------------------
@@ -162,10 +181,32 @@ let setUpGame = (function () {
 
 let playGame = (function () {
     'use strict';
+    
 
     const playSing = (playerOne) => {
-        if (setUpGame.turnPlay1 == true) {
+        let game = true;
+        while (game) {
+            for (let i = 0; i < gameBoard.length; i++) {
+                if (!(gameBoard[i] == "") && (i == (gameBoard.length - 1))) {
+                    const itsDraw = document.querySelector("#outputString");
+                    itsDraw.textContent = "It is a draw!";
+                    game = false
+                }
+            }
             
+            if (setUpGame.turnPlay1 == true) {
+                setUpGame.numberButtonsEvents(playerOne, setButtons);
+                checkIfWon(playerOne);
+                setUpGame.turnPlay1 = !setUpGame.turnPlay1;
+            } else if (setUpGame.turnPlay1 == false) {
+                // computer turn, check if won, and turn true again.
+            } else {
+                console.log(setUpGame.turnPlay1);
+            }
+
+            if (setUpGame.setButtons == false) {
+                setUpGame.setButtons = true;
+            }
         }
     }
 
@@ -177,6 +218,11 @@ let playGame = (function () {
         numberButton.textContent = symbol;
         gameboard[iRef] = symbol;
     }
+
+    const computerTurn = () => {
+        
+    }
+
     const checkIfWon = (playerCurr) => {
         const outputString = document.querySelector("#outputString");
 

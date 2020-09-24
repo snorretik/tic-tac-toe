@@ -3,18 +3,52 @@
     // _private
     // public
 
+    let gameBoard = ["", "", "", "", "", "", "", "", ""];
     let _play = false;
+    let _player1Name = "";
+    let _player2Name = "";
 
-    const clickMoves = Array.from(document.querySelectorAll(".vakjes"));
-    clickMoves.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            // weet nog niet...
-        })
-    })
+    function setButtons() {
+        const clickMoves = Array.from(document.querySelectorAll(".vakjes"));
+        for (let i = 0; i < clickMoves.length; i++) {
+            clickMoves[i].addEventListener('click', (e) => {
+                firstMove();
+
+            })
+        }
+    }
 
     function firstMove() {
-        // handle the names etc...
+        if (_play == false) {
+            _play = true;
+        }
     }
+
+    function startRestart() {
+        
+    }
+
+    function setSubmitButtons() {
+        // moet al voor het spel start
+        const button1 = document.querySelector("#button1");
+        const button2 = document.querySelector("#button2");
+
+        button1.addEventListener('click', (e) => {
+            const input1 = document.querySelector("#input1");
+            if (input1.value != "") {
+                _player1Name = input1.value;
+            }
+        })
+
+        button2.addEventListener('click', (e) => {
+            const input2 = document.querySelector("#input2");
+            if (input2.value != "") {
+                _player2Name = input2.value;
+            }
+        })
+    }
+
+
 })();
 
 (function(turn) {

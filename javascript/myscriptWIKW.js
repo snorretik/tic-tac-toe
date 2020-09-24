@@ -5,22 +5,68 @@
 
     let gameBoard = ["", "", "", "", "", "", "", "", ""];
     let _play = false;
+    let _comp = false;
     let _player1Name = "";
     let _player2Name = "";
 
     function setButtons() {
+        // second in line I think... after setSubmitButtons
         const clickMoves = Array.from(document.querySelectorAll(".vakjes"));
         for (let i = 0; i < clickMoves.length; i++) {
             clickMoves[i].addEventListener('click', (e) => {
-                firstMove();
+                let player = firstMove();
 
+                if (_play == true) {
+                    if (player.length == 1) {
+                        // singleplayer game
+                    } else if (player.length == 2) {
+                        // multiplayer game
+                    }
+
+                } else if (_play == false) {
+                    // niks
+
+                } else {
+                    console.log(_play);
+                }
             })
         }
     }
 
     function firstMove() {
         if (_play == false) {
-            _play = true;
+
+            if ((_player1Name != "") && (_player2Name != "")) {
+                const player1 = player(_player1Name, "X", true);
+                const player2 = player(_player2Name, "O", false);
+                
+                _play = true;
+
+                return {
+                    player1: player1,
+                    player2: player2,
+                }
+            } else if ((_player1Name != "") && (_comp == true)) {
+                const player1 = player(_player1Name, "X", true);
+
+                _play = true;
+
+                return {
+                    player1: player1
+                }
+                
+            } else if ((_player1Name == "") && (_comp == true)) {
+                const player1 = player("Anonymous", "X", true);
+                
+                _play = true;
+
+                return {
+                    player1: player1
+                }
+
+            } else if ((((_player1Name != "") && (_player2Name == "")) && (_comp == "false")) || (((_player1Name == "") && (_player2Name != "")) && (comp == "false"))) {
+                _play = false;
+            }
         }
     }
 

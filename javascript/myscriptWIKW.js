@@ -59,6 +59,7 @@ let game = (function() {
 
                         } else if (gameBoard.indexOf("") == -1) {
                             alert("It's a draw!")
+                            startRestart();
                         } else {
                             console.log(gameBoard.indexOf(""));
                         }
@@ -75,6 +76,7 @@ let game = (function() {
 
                         } else if (gameBoard.indexOf("") == -1) {
                             alert("It's a draw!");
+                            startRestart();
                         } else {
                             console.log(gameBoard.indexOf(""));
                         }
@@ -112,7 +114,7 @@ let game = (function() {
             } else if ((((_player1Name != "") && (_player2Name == "")) && (_comp == "false")) || (((_player1Name == "") && (_player2Name != "")) && (_comp == "false"))) {
                 _play = false;
             } else {
-                console.log("test123");
+                // console.log("test123");
                 // kan zijn dat dit leeg moet zijn
             }
         } else {
@@ -218,7 +220,7 @@ let game = (function() {
 
         button1.addEventListener('click', (e) => {
             const input1 = document.querySelector("#input1");
-            console.log(input1);
+            // console.log(input1);
             if (input1.value != "") {
                 _player1Name = input1.value;
                 input1.setAttribute("placeholder", _player1Name);
@@ -315,8 +317,8 @@ let game = (function() {
 
         while (makeChoice) {
             if (gameBoard.indexOf("") == -1) {
-                const output = document.querySelector("#outputString");
-                output.textContent = "It is a draw!";
+                alert("It is a draw!");
+                startRestart();
                 makeChoice = false;
             } else {
                 if (gameBoard[number] == "") {

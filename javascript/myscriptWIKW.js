@@ -22,7 +22,6 @@ let game = (function() {
 
                 if ((_comp == true) && (_play == true)) {
                     // singleplayer game
-                    // hoeft geen while knop. Het wordt gespeeld door opeenvolgens knoppen te drukken, dus dit fired elke keer.
                     if ((play1Turn == true) && (clickMoves[i].textContent == "")) {
                         const buttonHTML = document.querySelector(`#number${i + 1}`);
                         buttonHTML.textContent = player1.sign;
@@ -46,8 +45,41 @@ let game = (function() {
         
                 } else if ((_comp == false) && (_play == true)) {
                     // multiplayer game
-                }
-                else if (_play == false) {
+                    const buttonHTML = document.querySelector(`#number${i + 1}`);
+
+                    if ((play1Turn == true) && (clickMoves[i].textContent == "")){
+                        if (gameBoard.indexOf("") != -1) {
+                            buttonHTML.textContent = player1.sign;
+                            gameBoard[i] = player1.sign;
+                            if (checkIfWon(player1.sign)) {
+                                player1.wonMessage();
+                                startRestart();
+                            }
+                            play1Turn = false;
+
+                        } else if (gameBoard.indexOf("") == -1) {
+                            alert("It's a draw!")
+                        } else {
+                            console.log(gameBoard.indexOf(""));
+                        }
+
+                    } else if ((play1Turn == false) && (clickMoves[i].textContent == "")) {
+                        if (gameBoard.indexOf("") != -1) {
+                            buttonHTML.textContent = player2.sign;
+                            gameBoard[i] = player2.sign;
+                            if (checkIfWon(player2.sign)) {
+                                player2.wonMessage();
+                                startRestart();
+                            }
+                            play1Turn = true;
+
+                        } else if (gameBoard.indexOf("") == -1) {
+                            alert("It's a draw!");
+                        } else {
+                            console.log(gameBoard.indexOf(""));
+                        }
+                    }
+                } else if (_play == false) {
                     // niks...?
                 }
             });
@@ -77,7 +109,7 @@ let game = (function() {
                 
                 _play = true;
 
-            } else if ((((_player1Name != "") && (_player2Name == "")) && (_comp == "false")) || (((_player1Name == "") && (_player2Name != "")) && (comp == "false"))) {
+            } else if ((((_player1Name != "") && (_player2Name == "")) && (_comp == "false")) || (((_player1Name == "") && (_player2Name != "")) && (_comp == "false"))) {
                 _play = false;
             } else {
                 console.log("test123");
@@ -125,6 +157,7 @@ let game = (function() {
     function switchTurn() {
         play1Turn = !play1Turn;
     }
+
     function checkIfWon(sign) {
         if ((gameBoard[0] == sign) && (gameBoard[1] == sign) && (gameBoard[2] == sign)) {
             return true;    
@@ -146,11 +179,6 @@ let game = (function() {
     }
 
     function startRestart() {
-        // gameBoard moet empty zijn
-        // comp moet naar false en de functie remOrAdd moet het veld terug krijgen
-        // en dan moeten alle button textcontent leeg zijn.
-        // gameBoard = ["", "", "", "", "", "", "", "", ""];
-        // dit is slordig gedaan... hier zitten waarschijnlijk de fouten...
         _play = false;
 
         if (_comp == true) {
@@ -201,7 +229,7 @@ let game = (function() {
         button2.addEventListener('click', eventButton2);
 
         compToggle.addEventListener('click', (e) => {
-            if (_comp == false) {
+            if ((_comp == false) && (_player2Name == "")) {
                 _comp = !_comp;
                 remOrAdd(_comp);
             } else if (_comp == true) {
@@ -217,7 +245,7 @@ let game = (function() {
         const input2 = document.querySelector("#input2");
         // console.log(input2);
         if (input2.value != "") {
-            _player2Name = input2;
+            _player2Name = input2.value;
             input2.setAttribute("placeholder", _player2Name);
             input2.value = "";
         }
@@ -286,7 +314,7 @@ let game = (function() {
         // console.log(game.player1);
 
         while (makeChoice) {
-            if ((gameBoard).indexOf("") == -1) {
+            if (gameBoard.indexOf("") == -1) {
                 const output = document.querySelector("#outputString");
                 output.textContent = "It is a draw!";
                 makeChoice = false;
@@ -311,11 +339,6 @@ let game = (function() {
     }
 
     return {
-        gameBoard: gameBoard,
-        player1: player1,
-        player2: player2,
-        play1Turn: play1Turn,
-        switchTurn: switchTurn,
         setSubmitButtons: setSubmitButtons,
         setButtons: setButtons
     }

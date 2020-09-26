@@ -34,9 +34,9 @@ let game = (function() {
                         } else if (!checkIfWon(player1.sign)) {
                             play1Turn = false;
                             // computer turn, and inside set play1Turn true again
-                            comp.playCompTurn();
-                            if (checkIfWon(comp.compSign)) {
-                                comp.compWonMessage();
+                            playCompTurn();
+                            if (checkIfWon("O")) {
+                                compWonMessage();
                                 startRestart();
                             }
                         } else {
@@ -80,11 +80,11 @@ let game = (function() {
             } else if ((((_player1Name != "") && (_player2Name == "")) && (_comp == "false")) || (((_player1Name == "") && (_player2Name != "")) && (comp == "false"))) {
                 _play = false;
             } else {
-                console.log("Hello");
+                console.log("test123");
                 // kan zijn dat dit leeg moet zijn
             }
         } else {
-            console.log(_play);
+            // console.log(_play);
 
             // kan zijn dat dit leeg moet zijn
         }
@@ -146,7 +146,37 @@ let game = (function() {
     }
 
     function startRestart() {
-        
+        // gameBoard moet empty zijn
+        // comp moet naar false en de functie remOrAdd moet het veld terug krijgen
+        // en dan moeten alle button textcontent leeg zijn.
+        // gameBoard = ["", "", "", "", "", "", "", "", ""];
+        // dit is slordig gedaan... hier zitten waarschijnlijk de fouten...
+        _play = false;
+
+        if (_comp == true) {
+            _comp = false;
+            remOrAdd(_comp);
+        }
+
+        const klikMoves = document.querySelectorAll(".vakjes");
+        klikMoves.forEach((button) => {
+            button.textContent = "";
+        })
+
+        gameBoard = ["", "", "", "", "", "", "", "", ""];
+
+        _player1Name = "";
+        _player2Name = "";
+
+        const input1 = document.querySelector("#input1");
+        const input2 = document.querySelector("#input2");
+
+        input1.setAttribute("placeholder", "Player 1 name:");
+        input2.setAttribute("placeholder", "Player 2 name:");
+
+        player1 = {};
+        player2 = {};
+        play1Turn = true;
     }
 
     function setSubmitButtons() {
@@ -154,6 +184,9 @@ let game = (function() {
         const button1 = document.querySelector("#button1");
         const button2 = document.querySelector("#button2");
         const compToggle = document.querySelector("#opponentToggle");
+        const reset = document.querySelector("#startRestart");
+
+        reset.addEventListener('click', startRestart);
 
         button1.addEventListener('click', (e) => {
             const input1 = document.querySelector("#input1");
@@ -201,7 +234,7 @@ let game = (function() {
             const breakPlay21 = document.querySelector("#breakPlay2numb1");
             const breakPlay22 = document.querySelector("#breakPlay2numb2");
 
-            button2.removeEventListener('click', eventButton2());
+            button2.removeEventListener('click', eventButton2);
 
             mainDiv.removeChild(input2);
             mainDiv.removeChild(button2);
@@ -235,13 +268,46 @@ let game = (function() {
             mainDiv.insertBefore(breakPlay21, outputString);
             mainDiv.insertBefore(breakPlay22, outputString);
 
-            button2.addEventListener('click', eventButton2());
+            button2.addEventListener('click', eventButton2);
 
             toggle.textContent = "Against computer";
     
         } else {
             console.log(computerOrNot);
         }
+    }
+
+    function playCompTurn () {
+        let makeChoice = true;
+
+        let number = (Math.floor((Math.random() * 10) + 1) - 1);
+
+        // console.log(game);
+        // console.log(game.player1);
+
+        while (makeChoice) {
+            if ((gameBoard).indexOf("") == -1) {
+                const output = document.querySelector("#outputString");
+                output.textContent = "It is a draw!";
+                makeChoice = false;
+            } else {
+                if (gameBoard[number] == "") {
+                    // console.log(gameBoard[number]);
+                    const buttonHTML = document.querySelector(`#number${number + 1}`);
+                    buttonHTML.textContent = "O";
+                    gameBoard[number] = "O";
+    
+                    switchTurn();
+                    makeChoice = false;
+                } else if (gameBoard[number] != "") {
+                    number = (Math.floor((Math.random() * 10) + 1) - 1);
+                }
+            }
+        }
+    }
+
+    function compWonMessage() {
+        alert("Computer has won!");
     }
 
     return {
@@ -256,49 +322,51 @@ let game = (function() {
 
 })();
 
-let comp = (function() {
-    function playCompTurn () {
-        let makeChoice = true;
+// let comp = (function() {
+//     function playCompTurn () {
+//         let makeChoice = true;
 
-        let number = (Math.floor((Math.random() * 10) + 1) - 1);
+//         let number = (Math.floor((Math.random() * 10) + 1) - 1);
 
-        while (makeChoice) {
-            if ((game.gameBoard).indexOf("") == -1) {
-                const output = document.querySelector("#outputString");
-                output.textContent = "It is a draw!";
-                makeChoice = false;
-            } else {
-                if (game.gameBoard[number] == "") {
-                    const buttonHTML = document.querySelector(`#number${number + 1}`);
-                    buttonHTML.textContent = "O";
-                    game.gameBoard[number] = "O";
+//         console.log(game);
+//         console.log(game.player1);
+
+//         while (makeChoice) {
+//             if ((game.gameBoard).indexOf("") == -1) {
+//                 const output = document.querySelector("#outputString");
+//                 output.textContent = "It is a draw!";
+//                 makeChoice = false;
+//             } else {
+//                 if (game.gameBoard[number] == "") {
+//                     console.log(game.gameBoard[number]);
+//                     const buttonHTML = document.querySelector(`#number${number + 1}`);
+//                     buttonHTML.textContent = "O";
+//                     game.gameBoard[number] = "O";
     
-                    game.switchTurn();
-                    makeChoice = false;
-                } else if (game.gameBoard[number] != "") {
-                    number = (Math.floor((Math.random() * 10) + 1) - 1);
-                }
-            }
-        }
-    }
+//                     game.switchTurn();
+//                     makeChoice = false;
+//                 } else if (game.gameBoard[number] != "") {
+//                     number = (Math.floor((Math.random() * 10) + 1) - 1);
+//                 }
+//             }
+//         }
+//     }
 
-    function compWonMessage() {
-        const outputVariable = document.querySelector("#outputString");
-        outputVariable.textContent = "Computer has won!";
-    }
-    return {
-        compSign: "O",
-        compWonMessage: compWonMessage,
-        playCompTurn: playCompTurn
-    }
-})();
+//     function compWonMessage() {
+//         alert("Computer has won!");
+//     }
+//     return {
+//         compSign: "O",
+//         compWonMessage: compWonMessage,
+//         playCompTurn: playCompTurn
+//     }
+// })();
 
 function player(name, sign) {
     // maybe do some more...
     // misschien variabelen nog opslaan.
     function wonMessage() {
-        const outputVariable = document.querySelector("#outputString");
-        outputVariable.textContent = `${name}, you have won!`;
+        alert(`${name}, you have won!`);
     } 
     return { 
         name: name, 

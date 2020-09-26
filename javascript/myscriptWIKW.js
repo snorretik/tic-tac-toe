@@ -31,13 +31,16 @@ let game = (function() {
                         if (checkIfWon(player1.sign)) {
                             player1.wonMessage();
                             startRestart();
-                        }
-                        play1Turn = false;
-                        // computer turn, and inside set play1Turn true again
-                        comp.playCompTurn();
-                        if (checkIfWon(comp.compSign)) {
-                            comp.compWonMessage();
-                            startRestart();
+                        } else if (!checkIfWon(player1.sign)) {
+                            play1Turn = false;
+                            // computer turn, and inside set play1Turn true again
+                            comp.playCompTurn();
+                            if (checkIfWon(comp.compSign)) {
+                                comp.compWonMessage();
+                                startRestart();
+                            }
+                        } else {
+                            console.log(checkIfWon(player1.sign));
                         }
                     }
         
@@ -260,23 +263,21 @@ let comp = (function() {
         let number = (Math.floor((Math.random() * 10) + 1) - 1);
 
         while (makeChoice) {
-            if (game.gameBoard[number] == "") {
-                const buttonHTML = document.querySelector(`#number${number + 1}`);
-                buttonHTML.textContent = "O";
-                game.gameBoard[number] = "O";
-
-                game.switchTurn();
+            if ((game.gameBoard).indexOf("") == -1) {
+                const output = document.querySelector("#outputString");
+                output.textContent = "It is a draw!";
                 makeChoice = false;
-            } else if (game.gameBoard[number] != "") {
-                for (let i = 0; i < game.gameBoard.length; i++) {
-                    if (game.gameBoard[i] == "") {
-                        number = (Math.floor((Math.random() * 10) + 1) - 1);
-                    } else if (i == (game.gameBoard.length - 1)){
-                        const output = document.querySelector("#outputString");
-                        output.textContent = "It is a draw!";
-                        makeChoice = false;
-                    }
-                } 
+            } else {
+                if (game.gameBoard[number] == "") {
+                    const buttonHTML = document.querySelector(`#number${number + 1}`);
+                    buttonHTML.textContent = "O";
+                    game.gameBoard[number] = "O";
+    
+                    game.switchTurn();
+                    makeChoice = false;
+                } else if (game.gameBoard[number] != "") {
+                    number = (Math.floor((Math.random() * 10) + 1) - 1);
+                }
             }
         }
     }
